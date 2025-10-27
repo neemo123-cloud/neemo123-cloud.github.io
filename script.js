@@ -1,3 +1,19 @@
+// ✅ Node.js 서버에서 오는 메시지 받기
+const ws = new WebSocket("ws://localhost:3000");
+
+ws.onopen = () => {
+  console.log("✅ 서버 연결됨 (WebSocket)");
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  // System 메시지(연결 완료 등)는 무시
+  if (data.username === "System") return;
+
+  // 캐릭터 생성 + 말풍선 표시
+  spawnCharacter(data.username, data.message);
+};
 // ===== WebSocket 연결 (치지직 서버 연동용 자리) =====
 let ws;
 try {
