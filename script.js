@@ -20,7 +20,7 @@ function spawnCharacter(username, message) {
 
   const randomChar =
     characters[Math.floor(Math.random() * characters.length)];
-  charDiv.style.left = Math.random() * (window.innerWidth - 150) + "px";
+   charDiv.style.left = "800px"; // 화면 중앙 근처 고정 테스트
 
   charDiv.innerHTML = `
     <img src="characters/${randomChar}" width="120" />
