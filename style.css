@@ -1,7 +1,7 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: transparent;
+  background: black; /* 임시로 검정 배경 */
 }
 
 #overlay {
