@@ -1,30 +1,37 @@
-// 캐릭터 목록 (임시)
+// ===== WebSocket 연결 (치지직 서버 연동용 자리) =====
+let ws;
+try {
+  ws = new WebSocket("ws://localhost:3000");
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    spawnCharacter(data.username, data.message);
+  };
+} catch (err) {
+  console.warn("WebSocket 연결 실패 (테스트모드 실행)");
+}
+
+// ===== 기본 캐릭터 스폰 로직 =====
 const characters = ["cat.gif", "dog.gif", "bunny.gif"];
 const overlay = document.getElementById("overlay");
 
 function spawnCharacter(username, message) {
-  // 캐릭터 컨테이너 만들기
   const charDiv = document.createElement("div");
   charDiv.className = "character";
 
-  // 랜덤 캐릭터 선택
   const randomChar =
     characters[Math.floor(Math.random() * characters.length)];
-
-  // 랜덤 위치 (화면 너비 내)
   charDiv.style.left = Math.random() * (window.innerWidth - 150) + "px";
 
-  // HTML 구성
   charDiv.innerHTML = `
     <img src="characters/${randomChar}" width="120" />
-    <div class="bubble">${message}</div>
+    <div class="bubble">${username}: ${message}</div>
   `;
   overlay.appendChild(charDiv);
 
   const bubble = charDiv.querySelector(".bubble");
   bubble.classList.add("show");
 
-  // 랜덤 방향으로 이동
+  // 랜덤 방향 이동
   let dir = Math.random() < 0.5 ? -1 : 1;
   let pos = parseInt(charDiv.style.left);
   const move = setInterval(() => {
@@ -33,7 +40,7 @@ function spawnCharacter(username, message) {
     charDiv.style.left = pos + "px";
   }, 30);
 
-  // 30초 후 사라짐
+  // 30초 후 사라지기
   setTimeout(() => {
     clearInterval(move);
     bubble.classList.remove("show");
@@ -42,7 +49,7 @@ function spawnCharacter(username, message) {
   }, 30000);
 }
 
-// 테스트용 (나중에 채팅 연결로 바꿈)
+// ===== 테스트용 랜덤 채팅 (서버 없이 작동) =====
 setInterval(() => {
   const name = "user" + Math.floor(Math.random() * 100);
   const msgList = ["안녕!", "테스트 중!", "방송 재밌어요!", "ㅎㅎㅎ"];
