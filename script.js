@@ -50,6 +50,7 @@ function spawnCharacter(username, message) {
 }
 
 // ===== 테스트용 랜덤 채팅 (서버 없이 작동) =====
+// 테스트용 랜덤 캐릭터 생성 (4초마다)
 setInterval(() => {
   const name = "user" + Math.floor(Math.random() * 100);
   const msgList = ["안녕!", "테스트 중!", "방송 재밌어요!", "ㅎㅎㅎ"];
